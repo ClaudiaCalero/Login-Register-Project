@@ -1,28 +1,14 @@
 package com.Login.RegisterProject.Backend.entity;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name="user")
-public class User {
-    @Id
-    @Column(name= "id", length = 50)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+public class UserDTO {
     private Long id;
-
-    @Column(name= "name", length = 250)
     private String name;
-
-    @Column(name= "email", length = 250)
     private String email;
-
-    @Column(name= "password", length = 250)
     private String password;
 
-    public User() {
+    public UserDTO() {
     }
-
-    public User(Long id, String name, String email, String password) {
+    public UserDTO(Long id, String name, String email, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
