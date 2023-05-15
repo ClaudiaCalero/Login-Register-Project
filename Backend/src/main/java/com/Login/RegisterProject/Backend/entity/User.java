@@ -4,20 +4,20 @@ package com.Login.RegisterProject.Backend.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class User {
     @Id
-    @Column(name= "id", length = 50)
+    @Column(name = "id", length = 50)
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name= "user_name", length = 250)
+    @Column(name = "user_name", length = 250)
     private String username;
 
-    @Column(name= "email", length = 250)
+    @Column(name = "email", length = 250)
     private String email;
 
-    @Column(name= "password", length = 250)
+    @Column(name = "password", length = 250)
     private String password;
 
     public User() {

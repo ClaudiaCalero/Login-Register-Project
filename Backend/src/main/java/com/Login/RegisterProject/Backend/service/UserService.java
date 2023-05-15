@@ -1,9 +1,9 @@
 package com.Login.RegisterProject.Backend.service;
 
-import com.Login.RegisterProject.Backend.entity.LoginDTO;
-import com.Login.RegisterProject.Backend.entity.UserDTO;
+import com.Login.RegisterProject.Backend.entity.User;
 
 public interface UserService {
-    String addUser(UserDTO userDTO);
-    LoginMessage loginUser (LoginDTO loginDTO);
+    User registerUser(User user);
+
+    boolean loginUser(User user);
 }
