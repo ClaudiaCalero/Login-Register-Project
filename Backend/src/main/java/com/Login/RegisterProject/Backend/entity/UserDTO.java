@@ -2,7 +2,7 @@ package com.Login.RegisterProject.Backend.entity;
 
 public class UserDTO {
     private Long id;
-    private String name;
+    private String username;
     private String email;
     private String password;
 
@@ -10,7 +10,7 @@ public class UserDTO {
     }
     public UserDTO(Long id, String name, String email, String password) {
         this.id = id;
-        this.name = name;
+        this.username = name;
         this.email = email;
         this.password = password;
     }
@@ -24,11 +24,11 @@ public class UserDTO {
     }
 
     public String getName() {
-        return name;
+        return username;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.username = name;
     }
 
     public String getEmail() {
@@ -45,5 +45,15 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDTO {" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
