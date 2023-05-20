@@ -1,9 +1,15 @@
 package com.Login.RegisterProject.Backend.service;
 
+
+import com.Login.RegisterProject.Backend.dto.UserDTO;
 import com.Login.RegisterProject.Backend.entity.User;
 
-public interface UserService {
-    User registerUser(User user);
+import java.util.List;
 
-    boolean loginUser(User user);
+public interface UserService {
+    void saveUser(UserDTO userDTO);
+
+    User findUserByEmail(String email);
+
+    List<UserDTO> findAllUsers();
 }

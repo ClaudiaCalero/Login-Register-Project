@@ -1,46 +1,74 @@
 package com.Login.RegisterProject.Backend.service;
 
+import com.Login.RegisterProject.Backend.entity.Role;
 import com.Login.RegisterProject.Backend.entity.User;
+import com.Login.RegisterProject.Backend.dto.UserDTO;
+import com.Login.RegisterProject.Backend.repository.RoleRepository;
 import com.Login.RegisterProject.Backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private UserRepository userRepository;
 
-    @Override
-    public User registerUser(User user) {
-        // Verifica si el usuario ya existe en la base de datos
-        if (userRepository.findByEmail(user.getEmail()) != null) {
-            return null; // Usuario ya existe, retorna null
-        }
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
-        // Encripta la contraseña antes de guardarla en la base de datos
+    public void registerUser(User user) {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+        userRepository.save(user);
+    }
 
-        // Guarda el nuevo usuario en la base de datos
-        return userRepository.save(user);
+    public void saveUser(UserDTO userDTO) {
+        User user = new User();
+        user.setUsername(userDTO.getFirstName() + " " + userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+        // encrypt the password using spring security
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+
+        Role role = roleRepository.findByName("ROLE_ADMIN");
+        if (role == null) {
+            role = checkRoleExist();
+        }
+        user.setRoles(Arrays.asList(role));
+        userRepository.save(user);
     }
 
     @Override
-    public boolean loginUser(User user) {
-        // Busca el usuario en la base de datos porsu email
-        User existingUser = userRepository.findByEmail(user.getEmail());
-        // Verifica si el usuario existe y la contraseña es correcta
-        if (existingUser != null) {
-            // Compara la contraseña ingresada con la contraseña almacenada en la base de datos
-            return passwordEncoder.matches(user.getPassword(), existingUser.getPassword());
-        }
-        return false;
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<UserDTO> findAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map((user) -> mapToUserDto(user))
+                .collect(Collectors.toList());
+    }
+
+    private UserDTO mapToUserDto(User user) {
+        UserDTO userDTO = new UserDTO();
+        String[] str = user.getUsername().split(" ");
+        userDTO.setFirstName(str[0]);
+        userDTO.setLastName(str[1]);
+        userDTO.setEmail(user.getEmail());
+        return userDTO;
+    }
+
+    private Role checkRoleExist() {
+        Role role = new Role();
+        role.setName("ROLE_ADMIN");
+        return roleRepository.save(role);
     }
 }
