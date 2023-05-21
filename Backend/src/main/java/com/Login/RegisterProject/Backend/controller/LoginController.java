@@ -22,12 +22,10 @@ public class LoginController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
-
 
     @PostMapping("/login")
     public String login(@ModelAttribute User user) {

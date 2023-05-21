@@ -2,20 +2,15 @@ package com.Login.RegisterProject.Backend.dto;
 
 import javax.persistence.Column;
 
-
 public class UserDTO {
     @Column(name = "id", length = 50)
     private Long id;
-
     @Column(name = "f_name", length = 250, nullable = false)
     private String firstName;
     @Column(name = "l_name", length = 250, nullable = false)
     private String lastName;
-
-
     @Column(name = "email", length = 250, nullable = false, unique = true)
     private String email;
-
     @Column(name = "password", length = 250, nullable = false)
     private String password;
 

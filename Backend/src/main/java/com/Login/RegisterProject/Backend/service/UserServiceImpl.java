@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -44,12 +45,10 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    @Override
     public List<UserDTO> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
