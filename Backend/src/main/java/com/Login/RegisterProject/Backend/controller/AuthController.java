@@ -22,13 +22,11 @@ public class AuthController {
         this.userService = userService;
     }
 
-    // handler method to handle home page request
     @GetMapping("/index")
     public String home() {
         return "index";
     }
 
-    // handler method to handle user registration form request
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         // create model object to store form data
@@ -37,7 +35,6 @@ public class AuthController {
         return "register";
     }
 
-    // handler method to handle user registration form submit request
     @PostMapping("/register/save")
     public String registration(@ModelAttribute UserDTO userDTO,
                                BindingResult result,
@@ -58,7 +55,6 @@ public class AuthController {
         return "redirect:/register?success";
     }
 
-    // handler method to handle list of users
     @GetMapping("/users")
     public String users(Model model) {
         List<UserDTO> users = userService.findAllUsers();
