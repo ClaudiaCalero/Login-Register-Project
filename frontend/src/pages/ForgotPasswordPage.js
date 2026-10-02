@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; 
 
 function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showResetLink, setShowSuccessLink] = useState(false); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,6 +15,7 @@ function ForgotPasswordPage() {
     setTimeout(() => {
       setIsLoading(false);
       setMessage('Recovery email simulated successfully! Check your inbox.');
+      setShowSuccessLink(true); 
     }, 1500);
   };
 
@@ -44,6 +46,14 @@ function ForgotPasswordPage() {
             </p>
           )}
 
+          {showResetLink && (
+            <div style={{ marginTop: '10px', backgroundColor: '#e6f7f7', padding: '10px', borderRadius: '10px' }}>
+              <Link to="/reset-password" style={{ fontSize: '13px', color: '#2e7d7e', textDecoration: 'underline', fontWeight: '700' }}>
+                🔗 [Simulated Mail] Click here to go to Reset Password Page
+              </Link>
+            </div>
+          )}
+
           <button 
             type="submit" 
             disabled={isLoading}
@@ -64,4 +74,3 @@ function ForgotPasswordPage() {
 }
 
 export default ForgotPasswordPage;
-
