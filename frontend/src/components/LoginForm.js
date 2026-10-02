@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 
 function LoginForm() {
@@ -6,76 +8,82 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
+  const handleEmailChange = (e) => setEmail(e.target.value);
+  const handlePasswordChange = (e) => setPassword(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      await axios.post('http://localhost:8080/login', { email, password });
+      console.log('Login successful');
+    } catch (error) {
+      console.error('Login failed', error);
+      setErrorMessage('Connection failed. Please try again.');
+    }
+  };
 
-    const loginUser = {
-      email,
-      password
-    };
-    axios.post('http://localhost:8080/login' + loginUser)
-      .then(() => {
-        console.log('Login successful');
-      })
-      .catch(error => {
-        console.error('Login failed', error);
-        setErrorMessage('Connection failed. Please try again.');
-      });
+  const googleLogin = () => {
+    const url = "https://google.com";
+    window.open(url, "Google Auth", "width=500,height=600");
+  };
+   
+  const githubLogin = () => {
+    const url = "https://github.com";
+    window.open(url, "GitHub Auth", "width=500,height=600");
+  };
+
+  const linkedinLogin = () => {
+    const url = "https://linkedin.com";
+    window.open(url, "LinkedIn Auth", "width=500,height=600");
   };
 
   return (
-    <div className="form-container login-container">
-      <form action="#" onSubmit={handleSubmit}>
-        <h3 className="title">Welcome back to our page!</h3>
-        <p>We have missed you!</p>
-        <div>
-          <label>Email:</label>
-          <input type="email" value={email} onChange={handleEmailChange} placeholder='Email' autoComplete="current-email" />
+    <form action="#" onSubmit={handleSubmit}>
+      <h3>Welcome back to our page!</h3>
+      <p>We have missed you!</p>
+      
+      <div>
+        <label>Email:</label>
+        <input type="email" value={email} onChange={handleEmailChange} placeholder="Email" />
+      </div>
+      
+      <div>
+        <label>Password:</label>
+        <input type="password" value={password} onChange={handlePasswordChange} placeholder="Password" />
+      </div>
+      
+      {errorMessage && <div className="error">{errorMessage}</div>}
+      
+      <div className="content">
+        <label className="checkbox">
+          <input type="checkbox" id="checkbox" />
+          <span>Remember me</span>
+        </label>
+        <div className="pass-link">
+          <Link to="/forgot-password">Forgot password?</Link>
         </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" value={password} onChange={handlePasswordChange} placeholder='Password' autoComplete="current-password"/>
-        </div>
-        {errorMessage && <div className="error">{errorMessage}</div>}
-        <div className="content">
-          <div className="checkbox">
-            <input type="checkbox" name="checkbox" id="checkbox" />
-            <label>Remember me</label>
-          </div>
-          <div className="pass-link">
-            <a href="#">Forgot password?</a>
-          </div>
-        </div>
-        <button type="submit">Login</button>
-        <span>or use your account</span>
-        <div className="social-container">
-          <a href="#" className="social">
-            <svg width='26' height='26' viewBox='0 0 24 24' fill="none" xmlns='http://www.w3.org/2000/svg'>
-              <g transform="matrix(0.77 0 0 0.77 12 12)" >
-                <path transform=" translate(-13, -12.93)" d="M 13 0 C 5.82 0 0 5.82 0 13 C 0 19.518 4.801 24.899 11.057 25.839 L 11.057 16.445 L 7.84 16.445 L 7.84 13.028 L 11.057 13.028 L 11.057 10.754000000000001 C 11.057 6.989000000000001 12.891 5.3370000000000015 16.02 5.3370000000000015 C 17.518 5.3370000000000015 18.311 5.448000000000001 18.686 5.499000000000001 L 18.686 8.482000000000001 L 16.552 8.482000000000001 C 15.224 8.482000000000001 14.76 9.741000000000001 14.76 11.161000000000001 L 14.76 13.029000000000002 L 18.653 13.029000000000002 L 18.125 16.446 L 14.76 16.446 L 14.76 25.868000000000002 C 21.105 25.006 26 19.581 26 13 C 26 5.82 20.18 0 13 0 z" fill="#2E3A59" strokeLinecap="round" />
-              </g>
-            </svg></a>
-          <a href="#" className="social">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11.956 10.356V13.807H16.748C16.302 16 14.435 17.26 11.956 17.26C9.06851 17.2202 6.74862 14.8682 6.74862 11.9805C6.74862 9.09275 9.06851 6.74072 11.956 6.70098C13.1562 6.69954 14.3194 7.11605 15.246 7.87898L17.846 5.27898C14.8636 2.65705 10.508 2.31981 7.15752 4.45142C3.80707 6.58303 2.26698 10.6712 3.37821 14.4836C4.48943 18.296 7.98491 20.9164 11.956 20.914C16.423 20.914 20.485 17.665 20.485 11.98C20.4781 11.4326 20.411 10.8877 20.285 10.355L11.956 10.356Z" fill="#2E3A59" />
-            </svg>
-          </a>
-          <a href="#" className="social">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13 21H9V9H13V11C13.8526 9.91525 15.1456 9.26857 16.525 9.237C19.0056 9.25077 21.0072 11.2694 21 13.75V21H17V14.25C16.84 13.1326 15.8818 12.3036 14.753 12.306C14.2593 12.3216 13.7932 12.5378 13.4624 12.9046C13.1316 13.2715 12.9646 13.7573 13 14.25V21ZM7 21H3V9H7V21ZM5 7C3.89543 7 3 6.10457 3 5C3 3.89543 3.89543 3 5 3C6.10457 3 7 3.89543 7 5C7 5.53043 6.78929 6.03914 6.41421 6.41421C6.03914 6.78929 5.53043 7 5 7Z" fill="#2E3A59" />
-            </svg></a>
-        </div>
-      </form>
-    </div>
+      </div>
+      
+      <button type="submit">Login</button>
+      <span>or use your account</span> 
+      <div className="social-container">
+        <button type="button" className="social" onClick={githubLogin}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://w3.org">
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.0.069-.0 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.162 22 16.418 22 12c0-5.523-4.477-10-10-10z" fill="#2E3A59"/>
+          </svg>
+        </button>
+        <button type="button" className="social" onClick={googleLogin}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://w3.org">
+            <path d="M11.956 10.356V13.807H16.748C16.302 16 14.435 17.26 11.956 17.26C9.06851 17.2202 6.74862 14.8682 6.74862 11.9805C6.74862 9.09275 9.06851 6.74072 11.956 6.70098C13.1562 6.69954 14.3194 7.11605 15.246 7.87898L17.846 5.27898C14.8636 2.65705 10.508 2.31981 7.15752 4.45142C3.80707 6.58303 2.26698 10.6712 3.37821 14.4836C4.48943 18.296 7.98491 20.9164 11.956 20.914C16.423 20.914 20.485 17.665 20.485 11.98C20.4781 11.4326 20.411 10.8877 20.285 10.355L11.956 10.356Z" fill="#2E3A59" />
+          </svg>
+        </button>
+        <button type="button" className="social" onClick={linkedinLogin}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://w3.org">
+            <path d="M13 21H9V9H13V11C13.8526 9.91525 15.1456 9.26857 16.525 9.237C19.0056 9.25077 21.0072 11.2694 21 13.75V21H17V14.25C16.84 13.1326 15.8818 12.3036 14.753 12.306C14.2593 12.3216 13.7932 12.5378 13.4624 12.9046C13.1316 13.2715 12.9646 13.7573 13 14.25V21ZM7 21H3V9H7V21ZM5 7C3.89543 7 3 6.10457 3 5C3 3.89543 3.89543 3 5 3C6.10457 3 7 3.5 7 5C7 5.53043 6.78929 6.03914 6.41421 6.41421C6.03914 6.78929 5.53043 7 5 7Z" fill="#2E3A59" />
+          </svg>
+        </button>
+      </div>
+    </form>
   );
 }
 

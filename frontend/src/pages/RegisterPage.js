@@ -1,4 +1,4 @@
-/*import React from 'react';
+import React from 'react';
 import RegisterForm from '../components/RegisterForm';
 
 function RegisterPage() {
@@ -10,7 +10,4 @@ function RegisterPage() {
   );
 }
 
-export default RegisterPage;*/
-
-
-
+export default RegisterPage;

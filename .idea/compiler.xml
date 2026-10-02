@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="login-register" />
         <module name="Backend" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Backend" target="17" />
+      <module name="login-register" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
