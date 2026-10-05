@@ -91,6 +91,9 @@ Here is a look at the final animated design of the application:
 <img width="400" alt="Forgot View" src="https://github.com/user-attachments/assets/b9297625-fec6-4e51-a609-be0417b57637" /> 
 <img width="400" height="176.73" alt="Reset View" src="https://github.com/user-attachments/assets/3c6a4ebf-f34b-4531-a952-d33e0651b12b" />
 
+<img width="800" height="450" alt="Image" src="https://github.com/user-attachments/assets/bc452234-1847-4638-b006-61fe9567a3ee" />
+*P.S.: It's actually really smooth. The video cuts are just to avoid showing any personal information.*
+
 ---
 
 ## 🤝 Contributing & Contact
