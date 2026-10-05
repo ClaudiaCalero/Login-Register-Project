@@ -7,28 +7,52 @@ function RegisterForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
+  /* real route
+  const handleSubmit = (e) => {
+     e.preventDefault();
+ 
+     const registerUser = {
+       username,
+       email,
+       password
+     };
+ 
+     axios.post('http://localhost:8080/register', registerUser)
+       .then(() => {
+         console.log('Successful registration');
+       })
+       .catch(error => {
+         console.error('Registration failed', error);
+         setErrorMessage('Registration failed. Please try again.');
+       });
+   };*/
+
+  // simulation
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrorMessage('');
+    setIsSuccess(false); 
+    setIsLoading(true);
 
-    const registerUser = {
-      username,
-      email,
-      password
-    };
-
-    axios.post('http://localhost:8080/register', registerUser)
-      .then(() => {
-        console.log('Successful registration');
-      })
-      .catch(error => {
-        console.error('Registration failed', error);
-        setErrorMessage('Registration failed. Please try again.');
-      });
+    setTimeout(() => {
+      setIsLoading(false);
+      
+      setUsername('');
+      setEmail('');
+      setPassword('');
+      
+      setIsSuccess(true);
+      setErrorMessage('Account created successfully! Welcome to the community.');
+      console.log("Registro exitoso simulado.");
+    }, 1200);
   };
 
   const googleLogin = () => {
@@ -53,22 +77,29 @@ function RegisterForm() {
 
       <div>
         <label>Username:</label>
-        <input type="text" value={username} onChange={handleUsernameChange} placeholder="Username" />
+        <input type="text" value={username} onChange={handleUsernameChange} placeholder="Username" required />
       </div>
 
       <div>
         <label>Email:</label>
-        <input type="email" value={email} onChange={handleEmailChange} placeholder="Email" />
+        <input type="email" value={email} onChange={handleEmailChange} placeholder="Email" required />
       </div>
 
       <div>
         <label>Password:</label>
-        <input type="password" value={password} onChange={handlePasswordChange} placeholder="Password" />
+        <input type="password" value={password} onChange={handlePasswordChange} placeholder="Password" required />
       </div>
 
-      {errorMessage && <div className="error">{errorMessage}</div>}
+      {errorMessage && (
+        <div className={`error ${isSuccess ? 'success' : ''}`}>
+          {errorMessage}
+        </div>
+      )}
 
-      <button type="submit">Register</button>
+      <button type="submit" disabled={isLoading}>
+        {isLoading ? 'Creating account...' : 'Register'}
+      </button>
+      
       <span>or use your social account</span>
 
       <div className="social-container">

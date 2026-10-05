@@ -8,9 +8,13 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
+  /* Real route
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -20,13 +24,31 @@ function LoginForm() {
       console.error('Login failed', error);
       setErrorMessage('Connection failed. Please try again.');
     }
+  };*/
+
+  // simulation
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrorMessage('');
+    setIsSuccess(false); 
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      setEmail('');
+      setPassword('');
+      setIsSuccess(true);
+
+      setErrorMessage('Welcome back! Login successful.');
+      console.log("Login exitoso simulado.");
+    }, 1200);
   };
 
   const googleLogin = () => {
     const url = "https://google.com";
     window.open(url, "Google Auth", "width=500,height=600");
   };
-   
+
   const githubLogin = () => {
     const url = "https://github.com";
     window.open(url, "GitHub Auth", "width=500,height=600");
@@ -41,19 +63,24 @@ function LoginForm() {
     <form action="#" onSubmit={handleSubmit}>
       <h3>Welcome back to our page!</h3>
       <p>We have missed you!</p>
-      
+
       <div>
         <label>Email:</label>
-        <input type="email" value={email} onChange={handleEmailChange} placeholder="Email" />
+        <input type="email" value={email} onChange={handleEmailChange} placeholder="Email" required />
       </div>
-      
+
       <div>
         <label>Password:</label>
-        <input type="password" value={password} onChange={handlePasswordChange} placeholder="Password" />
+        <input type="password" value={password} onChange={handlePasswordChange} placeholder="Password" required />
       </div>
-      
-      {errorMessage && <div className="error">{errorMessage}</div>}
-      
+
+      {/* MEJORA VISUAL: Si es éxito, añadimos dinámicamente una clase "success" para pintarlo de verde en tu CSS */}
+      {errorMessage && (
+        <div className={`error ${isSuccess ? 'success' : ''}`}>
+          {errorMessage}
+        </div>
+      )}
+
       <div className="content">
         <label className="checkbox">
           <input type="checkbox" id="checkbox" />
@@ -63,13 +90,17 @@ function LoginForm() {
           <Link to="/forgot-password">Forgot password?</Link>
         </div>
       </div>
-      
-      <button type="submit">Login</button>
-      <span>or use your account</span> 
+
+      {/* Cambia el texto del botón dinámicamente si está cargando */}
+      <button type="submit" disabled={isLoading}>
+        {isLoading ? 'Connecting...' : 'Login'}
+      </button>
+
+      <span>or use your account</span>
       <div className="social-container">
         <button type="button" className="social" onClick={githubLogin}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://w3.org">
-            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.0.069-.0 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.162 22 16.418 22 12c0-5.523-4.477-10-10-10z" fill="#2E3A59"/>
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.0.069-.0 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.162 22 16.418 22 12c0-5.523-4.477-10-10-10z" fill="#2E3A59" />
           </svg>
         </button>
         <button type="button" className="social" onClick={googleLogin}>
