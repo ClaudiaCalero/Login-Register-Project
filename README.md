@@ -14,10 +14,12 @@ Welcome to **Login-Register-Project**! This repository showcases a premium, flui
 
 *   **🔄 Smooth Parallax Sliding Animation:** Alternating between *Login* and *Register* smoothly slides the form containers and the visual panel in opposite directions using hardware-accelerated CSS (`transform: translateX()`).
 *   **🌐 Clean Social Auth Layout:** Unified, accessible button structures styled for **Google, GitHub, and LinkedIn** authentication flows.
+*   **📩 Interactive Password Recovery Simulation:** The *Forgot Password* layout simulates a network request loading state before displaying a green success notification alongside an interactive, clickable mock email link that securely bridges the user to the *Reset Password* view.
 *   **🖥️ Aesthetic Retro UI:** A beautiful, responsive layout following the *Poppins* typography guidelines, subtle text shadows, and a retro pixel-art terminal typing background.
 *   **🛡️ Production Ready & Secure:** Hardcoded credentials have been fully decoupled and cleaned up, making the frontend codebase 100% safe to deploy publicly.
 
 ---
+
 ## 🛠️ Tech Stack
 
 ### **Frontend**
@@ -72,6 +74,7 @@ To clone this repository and spin up the frontend interface on your local machin
     *The web application will automatically fire up in your default browser at `http://localhost:3000`.*
 
 ---
+
 ## 📷 Preview & Visuals
 
 Here is a look at the final animated design of the application:
